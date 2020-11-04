@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/viveksanthosh/node_tracing#readme",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "express": "^4.17.1"
   }
 }
