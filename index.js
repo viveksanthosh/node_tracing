@@ -1,6 +1,37 @@
 const express = require('express');
 const server = express()
 const { delay } = require('bluebird')
+const md5 = require('md5')
+const createNamespace = require('cls-hooked').createNamespace;
+const session = createNamespace('test_session');
+
+
+const middleware = (req, res, next) => {
+    session.run(() => {
+        const transactionId = md5(Math.random());
+        set('transactionId', transactionId)
+        set(config.apiTransactionMeta.CACHE_STATUS, config.cacheStatusCodes.MISS)
+        next()
+    });
+}
+
+function get(key) {
+    if (session && session.active) {
+        return session.get(key);
+    } else {
+        console.log('session get miss')
+    }
+}
+
+
+function set(key, value) {
+    if (session && session.active) {
+        return session.set(key, value);
+    } else {
+        console.log('session set miss')
+    }
+}
+
 
 server.use('/', (req, res, next) => {
     console.log('here');
@@ -11,10 +42,9 @@ server.use('/', (req, res, next) => {
         req.query.duration = req.query.duration ? req.query.duration : mapper[id].duration
     }
     next()
-
 })
 
-server.get('/delay', async (req, res) => {
+server.get('/delay', middleware, async (req, res) => {
     res.status(200).send()
     console.log(req.query);
     const { delayTime, id } = req.query;
@@ -28,6 +58,7 @@ server.listen(4000, () => {
 })
 
 async function doSomething(delayTime, id) {
+    session.get('transactionId')
     await delay(delayTime)
     console.log('done ', id);
 }
