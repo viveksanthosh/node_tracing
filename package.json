@@ -18,6 +18,8 @@
   "homepage": "https://github.com/viveksanthosh/node_tracing#readme",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "express": "^4.17.1"
+    "cls-hooked": "^4.2.2",
+    "express": "^4.17.1",
+    "md5": "^2.3.0"
   }
 }
