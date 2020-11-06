@@ -10,18 +10,15 @@ for (let i = 0; i < 5; i++) {
         session.set('delay', delayTime)
         session.set('i', i)
         console.log(delayTime, '--', i)
-        processInformation(delayTime).then(() => { })
+        processInformation().then(() => { })
 
     })
 }
 
-function processInformation(delayTime) {
+function processInformation() {
+    let delayTime = session.get('delay')
     return delay(delayTime).then(() => {
         console.log('here')
         console.log(session.get('delay'), '--++--', session.get('i'))
     })
 }
-
-delay(10000).then(() => {
-    console.log('done');
-})
