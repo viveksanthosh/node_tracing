@@ -10,7 +10,7 @@ for (let i = 0; i < 5; i++) {
         session.set('delay', delayTime)
         session.set('i', i)
         console.log(delayTime, '--', i)
-        processInformation().then(() => { })
+        processInformation()
 
     })
 }
